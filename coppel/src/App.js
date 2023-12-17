@@ -1,10 +1,16 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Trabajadores_, Error } from "./paginas/GestorPaginas";
 
 
 function App() {
   return (
-    <div >
-      <p>prueba coppel en react</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Trabajadores_ />} />
+        <Route path="/index" element={<Trabajadores_ />} />
+        <Route path="/*" element={<Error />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
