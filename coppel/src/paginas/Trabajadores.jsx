@@ -73,19 +73,18 @@ export default function Trabajadores() {
                 </div>
 
                 <div className="sm:col-span-3">
-                  <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">
                     Country
                   </label>
                   <div className="mt-2">
                     <select
-                      id="country"
-                      name="country"
-                      autoComplete="country-name"
+                      id="rol"
+                      name="rol"
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
                     >
-                      <option>United States</option>
-                      <option>Canada</option>
-                      <option>Mexico</option>
+                      <option>Chofer</option>
+                      <option>Cargador</option>
+                      <option>Auxiliar</option>
                     </select>
                   </div>
                 </div>
