@@ -1,6 +1,7 @@
 import React from 'react';
 import { getAllTrabajadoresPorPagina } from '../api/apiTrabajadores';
 import { useQuery } from 'react-query';
+import GoogleStyleLoading from '../componenetes/GoogleStyleLoading'
 
 
 
@@ -13,8 +14,8 @@ export default function MostrarTodosLosTrabajadores() {
   }
 
   if (isLoading) {
-    // return <GoogleStyleLoading />;
-    return <span>cargando...............</span>;
+    return <GoogleStyleLoading />;
+    
 
   }
 
