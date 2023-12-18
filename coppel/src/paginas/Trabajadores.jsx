@@ -1,5 +1,4 @@
-
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useForm } from 'react-hook-form';
 
 const estiloPrincipal = {
   width: '70%',
@@ -12,12 +11,53 @@ const estiloMovil = {
   width: '90%',
 };
 
+
+
 export default function Trabajadores() {
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {},
+  });
+
+  const onSubmit = handleSubmit(async (data) => {
+   // Mapeo de roles
+   const rolesMapping = {
+    Chofer: 1,
+    Cargador: 2,
+    Auxiliar: 3,
+  };
+   // Mapeo de bonos
+   const bonosMapping = {
+    Chofer: 10,
+    Cargador: 5,
+    Auxiliar: 0,
+  };
+
+  // Obtener el valor correspondiente o asignar 3 por defecto
+    const idRol = rolesMapping[data.rol] || 3;
+    const bonoPorRol = bonosMapping[data.rol] || 0;
+
+    const datosCompletos = {
+      nombreCompleto: data.nombreCompleto,
+      idRol: idRol,
+      numeroEmpleado:  data.numeroEmpleado,
+      bonoPorHora: bonoPorRol,
+      sueldoPorHora: 30,
+      valesDespensa: 0.04
+    }
+   
+  });
+
   return (
     <>
       <div style={{ ...estiloPrincipal, ...(window.innerWidth <= 600 && estiloMovil) }}>
 
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="space-y-12">
 
 
@@ -28,19 +68,35 @@ export default function Trabajadores() {
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
                 <div className="sm:col-span-2 sm:col-start-1">
-                  <label htmlFor="nombres" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label htmlFor="nombreCompleto" className="block text-sm font-medium leading-6 text-gray-900">
                     Nombres:
                   </label>
                   <div className="mt-2">
                     <input
                       type="text"
-                      name="nombres"
-                      id="nombres"
-                      autoComplete="address-level2"
+                      name="nombreCompleto"
+                      id="nombreCompleto"
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
+                      placeholder="Nombre completo"
+                      {...register("nombreCompleto", {
+                        required: {
+                          value: true,
+                          message: 'Campo requerido'
+                        },
+                        minLength: {
+                          value: 3,
+                          message: 'El nombre o nombres debe tener al menos 3 caracteres.'
+                        },
+                        maxLength: {
+                          value: 25,
+                          message: 'El nombre o nombres no debe exceder los 25 caracteres.'
+                        }
+                      })}
                     />
+                    {errors.nombreCompleto && <span className=" text-red-600 " style={{ fontSize: '12px' }} >{errors.nombreCompleto.message}</span>}
                   </div>
                 </div>
+
 
                 <div className="sm:col-span-2">
                   <label htmlFor="apellidos" className="block text-sm font-medium leading-6 text-gray-900">
@@ -51,9 +107,24 @@ export default function Trabajadores() {
                       type="text"
                       name="apellidos"
                       id="apellidos"
-
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
+                      placeholder="Apellidos"
+                      {...register("apellidos", {
+                        required: {
+                          value: true,
+                          message: 'Campo requerido'
+                        },
+                        minLength: {
+                          value: 3,
+                          message: 'El apellido debe tener al menos 3 caracteres.'
+                        },
+                        maxLength: {
+                          value: 25,
+                          message: 'El apellido no debe exceder los 25 caracteres.'
+                        }
+                      })}
                     />
+                    {errors.apellidos && <span className=" text-red-600 " style={{ fontSize: '12px' }} >{errors.apellidos.message}</span>}
                   </div>
                 </div>
 
@@ -66,9 +137,24 @@ export default function Trabajadores() {
                       type="text"
                       name="numeroEmpleado"
                       id="numeroEmpleado"
-
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
+                      placeholder="numeroEmpleado"
+                      {...register("numeroEmpleado", {
+                        required: {
+                          value: true,
+                          message: 'Campo requerido'
+                        },
+                        minLength: {
+                          value: 3,
+                          message: 'El numero de empleado debe tener al menos 3 caracteres.'
+                        },
+                        maxLength: {
+                          value: 25,
+                          message: 'El numero de empleado no debe exceder los 25 caracteres.'
+                        }
+                      })}
                     />
+                    {errors.numeroEmpleado && <span className=" text-red-600 " style={{ fontSize: '12px' }} >{errors.numeroEmpleado.message}</span>}
                   </div>
                 </div>
 
@@ -80,6 +166,7 @@ export default function Trabajadores() {
                     <select
                       id="rol"
                       name="rol"
+                      {...register('rol')}
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
                     >
                       <option>Chofer</option>
