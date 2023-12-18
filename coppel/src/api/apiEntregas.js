@@ -1,8 +1,9 @@
 import axios from "axios";
+import { baseURL } from "./urlApi"
 
 
 export const controlApi = axios.create({
-    baseURL: 'http://localhost:8080/api_sueldos_coppel'
-      })
+    baseURL: `${baseURL}`
+})
 
 export const registrarEntregas = (entregas) => controlApi.post('/entregas', entregas);
