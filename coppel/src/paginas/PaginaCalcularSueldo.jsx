@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { registrarEntregas } from '../api/apiEntregas';
+import { calcularSueldo } from '../api/apiSueldos';
 
 
 const estiloPrincipal = {
@@ -18,16 +18,16 @@ const estiloMovil = {
 
 export default function PaginaCalcularSueldo() {
 
-  const { mutate, isLoading } = useMutation(registrarEntregas, {
+  const { mutate, isLoading } = useMutation(calcularSueldo, {
     onSuccess: () => {
       reset();
-      alert('Entrega registrado con éxito');
-      console.log('entrega registrado con éxito');
+      alert('Sueldo registrado con éxito');
+      console.log('Sueldo registrado con éxito');
 
     },
     onError: (error) => {
-      alert('Error al registrar nuevo entrega.');
-      console.error('Error al registar entrega:', error);
+      alert('Error al registrar sueldo');
+      console.error('Error al registar sueldo:', error);
     },
   });
 
@@ -42,15 +42,18 @@ export default function PaginaCalcularSueldo() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
+    const fechaSueldo = new Date(data.fechaSueldo);
 
-
+    // Obtiene el mes y el año de la fecha
+    const mes = fechaSueldo.getMonth() + 1; 
+    const anio = fechaSueldo.getFullYear();
+  
     const datosCompletos = {
       idTrabajador: parseInt(data.idTrabajador, 10),
-      precioEntrega: "5",
-      cantidadEntrega: data.cantidadEntrega,
-      fecha: data.fechaEntrega
+      mes:  mes,
+      year: anio
     }
-    // console.log(datosCompletos);
+    console.log(datosCompletos);
     mutate(datosCompletos);
 
   });
@@ -64,7 +67,7 @@ export default function PaginaCalcularSueldo() {
 
 
             <div className="border-b border-gray-900/10 pb-12">
-              <h2 className="text-xl font-semibold leading-7 text-gray-900 mb-3">Registrar entregas por empleado</h2>
+              <h2 className="text-xl font-semibold leading-7 text-gray-900 mb-3">Registrar sueldo por empleado</h2>
               <h2 className="text-base font-semibold leading-7 text-gray-900">Información personal</h2>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -75,7 +78,7 @@ export default function PaginaCalcularSueldo() {
                   </label>
                   <div className="mt-2">
                     <input
-                      type="text"
+                      type="number"
                       name="idTrabajador"
                       id="idTrabajador"
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
@@ -101,54 +104,24 @@ export default function PaginaCalcularSueldo() {
 
 
                 <div className="sm:col-span-2">
-                  <label htmlFor="cantidadEntrega" className="block text-sm font-medium leading-6 text-gray-900">
-                    Cantidad entrega:
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="number"
-                      name="cantidadEntrega"
-                      id="cantidadEntrega"
-                      className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
-                      placeholder="Cantidad entregas"
-                      {...register("cantidadEntrega", {
-                        required: {
-                          value: true,
-                          message: 'Campo requerido'
-                        },
-                        minLength: {
-                          value: 1,
-                          message: 'El input cantidad entregas debe tener al menos 1 caracteres.'
-                        },
-                        maxLength: {
-                          value: 5,
-                          message: 'El input cantidad entregas no debe exceder los 5 caracteres.'
-                        }
-                      })}
-                    />
-                    {errors.cantidadEntrega && <span className=" text-red-600 " style={{ fontSize: '12px' }} >{errors.cantidadEntrega.message}</span>}
-                  </div>
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label htmlFor="fechaEntrega" className="block text-sm font-medium leading-6 text-gray-900">
-                    Fecha Entrega:
+                  <label htmlFor="fechaSueldo" className="block text-sm font-medium leading-6 text-gray-900">
+                    Fecha Salario:
                   </label>
                   <div className="mt-2">
                     <input
                       type="date"
-                      name="fechaEntrega"
-                      id="fechaEntrega"
+                      name="fechaSueldo"
+                      id="fechaSueldo"
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
                       placeholder="Fecha"
-                      {...register("fechaEntrega", {
+                      {...register("fechaSueldo", {
                         required: {
                           value: true,
                           message: 'Campo requerido'
                         }
                       })}
                     />
-                    {errors.fechaEntrega && <span className=" text-red-600 " style={{ fontSize: '12px' }} >{errors.fechaEntrega.message}</span>}
+                    {errors.fechaSueldo && <span className=" text-red-600 " style={{ fontSize: '12px' }} >{errors.fechaSueldo.message}</span>}
                   </div>
                 </div>
 
@@ -166,7 +139,7 @@ export default function PaginaCalcularSueldo() {
               type="submit"
               className="rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
             >
-              Registrar entrega
+              Registrar sueldo
             </button>
           </div>
         </form>
