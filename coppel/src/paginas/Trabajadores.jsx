@@ -20,6 +20,7 @@ export default function Trabajadores() {
 
   const { mutate, isLoading } = useMutation(createTrabajador, {
     onSuccess: () => {
+      reset();
       console.log('Empledo añadido con éxito');
 
     },
@@ -32,6 +33,7 @@ export default function Trabajadores() {
   const {
     register,
     handleSubmit,
+    reset ,
     control,
     formState: { errors },
   } = useForm({
@@ -154,7 +156,7 @@ export default function Trabajadores() {
                       name="numeroEmpleado"
                       id="numeroEmpleado"
                       className="bg-white border border-slate-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-white dark:border-slate-600 dark:placeholder-slate-400  dark:focus:ring-slate-500 dark:focus:border-slate-500"
-                      placeholder="numeroEmpleado"
+                      placeholder="numero empleado"
                       {...register("numeroEmpleado", {
                         required: {
                           value: true,
