@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Trabajadores_, Error,AllTrabajadores, RegistrarEntregas , CalcularSueldo , MostrarSueldos} from "./paginas/GestorPaginas";
+import { Trabajadores_, Error,AllTrabajadores, RegistrarEntregas , CalcularSueldo , MostrarSueldos, ActualizarEmpleado} from "./paginas/GestorPaginas";
 import Header from "./componenetes/Header";
 
 
@@ -14,6 +14,7 @@ function App() {
         <Route path="/entregas" element={<RegistrarEntregas />} />
         <Route path="/registar-sueldo" element={<CalcularSueldo />} />
         <Route path="/ver-sueldos" element={<MostrarSueldos />} />
+        <Route path="/actualizar-empleado/:id" element={<ActualizarEmpleado />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </BrowserRouter>

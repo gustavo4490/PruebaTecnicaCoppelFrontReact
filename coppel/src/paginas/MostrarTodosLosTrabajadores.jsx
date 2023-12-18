@@ -2,6 +2,7 @@ import React from 'react';
 import { getAllTrabajadoresPorPagina } from '../api/apiTrabajadores';
 import { useQuery } from 'react-query';
 import GoogleStyleLoading from '../componenetes/GoogleStyleLoading';
+import { Link } from 'react-router-dom';
 
 const estiloPrincipal = {
   width: '90%',
@@ -29,7 +30,7 @@ export default function MostrarTodosLosTrabajadores() {
   }
 
   const handlePageClick = async (pageNumber) => {
-  
+
     setPage(pageNumber);
     await refetch();
   };
@@ -89,7 +90,7 @@ export default function MostrarTodosLosTrabajadores() {
                       Sueldo por Hora
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Vales de Despensa
+                      Acciones
                     </th>
                   </tr>
                 </thead>
@@ -103,7 +104,9 @@ export default function MostrarTodosLosTrabajadores() {
                       <td className="whitespace-nowrap px-6 py-4">{trabajador.rol}</td>
                       <td className="whitespace-nowrap px-6 py-4">{trabajador.bonoPorHora}</td>
                       <td className="whitespace-nowrap px-6 py-4">{trabajador.sueldoPorHora}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.valesDespensa}</td>
+                      <td className="whitespace-nowrap px-6 py-4 space-x-2">
+                        <Link className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" to={`/actualizar-empleado/${trabajador.idTrabajador}`}>Editar</Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
