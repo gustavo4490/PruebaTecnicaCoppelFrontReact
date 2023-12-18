@@ -29,7 +29,7 @@ export default function MostrarTodosLosTrabajadores() {
   }
 
   const handlePageClick = async (pageNumber) => {
-    console.log(`Se hizo clic en la página ${pageNumber}`);
+  
     setPage(pageNumber);
     await refetch();
   };
