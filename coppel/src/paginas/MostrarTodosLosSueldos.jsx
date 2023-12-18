@@ -1,7 +1,11 @@
 import React from 'react';
-import { getAllSueldosPorPagina } from '../api/apiSueldos';
+import { getAllSueldosPorPagina} from '../api/apiSueldos';
 import { useQuery } from 'react-query';
 import GoogleStyleLoading from '../componenetes/GoogleStyleLoading';
+import axios from "axios";
+import { baseURL } from "../api/urlApi"
+
+
 
 const estiloPrincipal = {
   width: '90%',
@@ -13,6 +17,27 @@ const estiloMovil = {
 };
 
 export default function MostrarTodosLosSueldos() {
+    const handleEliminarEmpleado = (idSueldo) => {
+    const datosCompletos = {
+      idSueldo: idSueldo
+    };
+  
+    const url = `${baseURL}`;
+  
+    console.log(datosCompletos);
+  
+    axios.delete(`${url}/sueldos`, { data: datosCompletos })
+      .then(response => {
+        console.log(response);
+        window.location.reload(); // Recargar la página actual
+
+              
+      })
+      .catch(error => {
+        console.error('Error al eliminar el sueldo', error);
+      
+      });
+  };
   const page = 1;
 
   const { data, isError, error, isLoading } = useQuery(['obtenerTodosLosSueldos', page], () => getAllSueldosPorPagina(page));
@@ -38,14 +63,14 @@ export default function MostrarTodosLosSueldos() {
       SalarioFinaldecimal,
       mesSalario,
       año } = element;
-// Array con nombres de meses
-const nombresMeses = [
-  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-];
+    // Array con nombres de meses
+    const nombresMeses = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
 
-// Obtener el nombre del mes
-const nombreMes = nombresMeses[mesSalario - 1]; // Restamos 1 porque los meses en JavaScript son 0-indexados
+    // Obtener el nombre del mes
+    const nombreMes = nombresMeses[mesSalario - 1]; // Restamos 1 porque los meses en JavaScript son 0-indexados
 
 
     return {
@@ -85,7 +110,7 @@ const nombreMes = nombresMeses[mesSalario - 1]; // Restamos 1 porque los meses e
                       Nombre Completo
                     </th>
                     <th scope="col" className="px-6 py-4">
-                     salario correspondiente
+                      salario correspondiente
                     </th>
                     <th scope="col" className="px-6 py-4">
                       Salario Base
@@ -108,6 +133,9 @@ const nombreMes = nombresMeses[mesSalario - 1]; // Restamos 1 porque los meses e
                     <th scope="col" className="px-6 py-4">
                       Salario neto mas vales
                     </th>
+                    <th scope="col" className="px-6 py-4">
+                      Acciones
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -123,6 +151,15 @@ const nombreMes = nombresMeses[mesSalario - 1]; // Restamos 1 porque los meses e
                       <td className="whitespace-nowrap px-6 py-4">${trabajador.sueldoNeto}</td>
                       <td className="whitespace-nowrap px-6 py-4">${trabajador.totalValesDespensa}</td>
                       <td className="whitespace-nowrap px-6 py-4">${trabajador.SalarioFinaldecimal}</td>
+                      <td className="whitespace-nowrap px-6 py-4 space-x-2">
+                        <button
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                          onClick={() => handleEliminarEmpleado(trabajador.idSueldo)}
+                        >
+                          Eliminar
+                        </button>
+
+                      </td>
                     </tr>
                   ))}
                 </tbody>
