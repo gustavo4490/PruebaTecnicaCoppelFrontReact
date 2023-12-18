@@ -1,4 +1,7 @@
 import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { createTrabajador } from '../api/apiTrabajadores';
+
 
 const estiloPrincipal = {
   width: '70%',
@@ -15,6 +18,17 @@ const estiloMovil = {
 
 export default function Trabajadores() {
 
+  const { mutate, isLoading } = useMutation(createTrabajador, {
+    onSuccess: () => {
+      console.log('Empledo añadido con éxito');
+
+    },
+    onError: (error) => {
+      alert('Error al registrar nuevo empleado.');
+      console.error('Error al añadir el nuevo empleado:', error);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -25,32 +39,34 @@ export default function Trabajadores() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-   // Mapeo de roles
-   const rolesMapping = {
-    Chofer: 1,
-    Cargador: 2,
-    Auxiliar: 3,
-  };
-   // Mapeo de bonos
-   const bonosMapping = {
-    Chofer: 10,
-    Cargador: 5,
-    Auxiliar: 0,
-  };
+    // Mapeo de roles
+    const rolesMapping = {
+      Chofer: 1,
+      Cargador: 2,
+      Auxiliar: 3,
+    };
+    // Mapeo de bonos
+    const bonosMapping = {
+      Chofer: 10,
+      Cargador: 5,
+      Auxiliar: 0,
+    };
 
-  // Obtener el valor correspondiente o asignar 3 por defecto
+    // Obtener el valor correspondiente o asignar 3 por defecto
     const idRol = rolesMapping[data.rol] || 3;
-    const bonoPorRol = bonosMapping[data.rol] || 0;
+    const bonoPorRol = String(bonosMapping[data.rol] || '0');
+
 
     const datosCompletos = {
       nombreCompleto: data.nombreCompleto,
       idRol: idRol,
-      numeroEmpleado:  data.numeroEmpleado,
+      numeroEmpleado: data.numeroEmpleado,
       bonoPorHora: bonoPorRol,
-      sueldoPorHora: 30,
-      valesDespensa: 0.04
+      sueldoPorHora: "30",
+      valesDespensa: "0.04"
     }
-   
+    mutate(datosCompletos);
+
   });
 
   return (
@@ -160,7 +176,7 @@ export default function Trabajadores() {
 
                 <div className="sm:col-span-3">
                   <label htmlFor="rol" className="block text-sm font-medium leading-6 text-gray-900">
-                    Country
+                    Rol:
                   </label>
                   <div className="mt-2">
                     <select
@@ -190,7 +206,7 @@ export default function Trabajadores() {
               type="submit"
               className="rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
             >
-              Guardar
+              Añadir Empleado
             </button>
           </div>
         </form>
