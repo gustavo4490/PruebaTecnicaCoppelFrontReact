@@ -31,8 +31,8 @@ export default function Header() {
                     <Link to={'/empleados'} className="text-sm font-semibold leading-6 text-gray-900">
                         Ver todos los empleados
                     </Link>
-                    <Link to={'index'} className="text-sm font-semibold leading-6 text-gray-900">
-                        Crear Trabajador
+                    <Link to={'/entregas'} className="text-sm font-semibold leading-6 text-gray-900">
+                        Registrar entregas
                     </Link>
                 </Popover.Group>
 
@@ -75,10 +75,10 @@ export default function Header() {
                                         setMobileMenuOpen(false);
 
                                     }}
-                                    to={'/principal'}
+                                    to={'/entregas'}
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Crear Trabajador
+                                     Registrar entregas
                                 </Link>
                             </div>
 
