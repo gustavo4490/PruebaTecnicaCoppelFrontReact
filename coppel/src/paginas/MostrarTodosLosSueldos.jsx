@@ -1,5 +1,5 @@
 import React from 'react';
-import { getAllTrabajadoresPorPagina } from '../api/apiTrabajadores';
+import { getAllSueldosPorPagina } from '../api/apiSueldos';
 import { useQuery } from 'react-query';
 import GoogleStyleLoading from '../componenetes/GoogleStyleLoading';
 
@@ -13,47 +13,58 @@ const estiloMovil = {
 };
 
 export default function MostrarTodosLosSueldos() {
-  const [page, setPage] = React.useState(1);
+  const page = 1;
 
-  const { data, isError, error, isLoading, refetch } = useQuery(
-    ['getTodosLosTrabajadores', page],
-    () => getAllTrabajadoresPorPagina(page)
-  );
+  const { data, isError, error, isLoading } = useQuery(['obtenerTodosLosSueldos', page], () => getAllSueldosPorPagina(page));
 
   if (isError) {
-    return <span>Error {error.message}</span>;
+    return <span>Error {error.message}</span>
   }
 
   if (isLoading) {
     return <GoogleStyleLoading />;
+
   }
 
-  const handlePageClick = async (pageNumber) => {
-  
-    setPage(pageNumber);
-    await refetch();
-  };
+  const datosSueldos = data.map((element) => {
+    const { idSueldo,
+      nombreCompleto,
+      totalSalarioBase,
+      totalBono,
+      totalEntregas,
+      sueldoBruto,
+      sueldoNeto,
+      totalValesDespensa,
+      SalarioFinaldecimal,
+      mesSalario,
+      año } = element;
+// Array con nombres de meses
+const nombresMeses = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+];
 
-  const datosTrabajadores = data.map((element) => {
-    const {
-      nombreCompleto,
-      numeroEmpleado,
-      rol,
-      bonoPorHora,
-      sueldoPorHora,
-      valesDespensa,
-      idTrabajador,
-    } = element;
+// Obtener el nombre del mes
+const nombreMes = nombresMeses[mesSalario - 1]; // Restamos 1 porque los meses en JavaScript son 0-indexados
+
+
     return {
+      idSueldo,
       nombreCompleto,
-      numeroEmpleado,
-      rol,
-      bonoPorHora,
-      sueldoPorHora,
-      valesDespensa,
-      idTrabajador,
+      totalSalarioBase,
+      totalBono,
+      totalEntregas,
+      sueldoBruto,
+      sueldoNeto,
+      totalValesDespensa,
+      SalarioFinaldecimal,
+      mesSalario: nombreMes,
+      año
     };
   });
+  // console.log(datosSueldos);
+
+
 
   return (
     <>
@@ -70,40 +81,48 @@ export default function MostrarTodosLosSueldos() {
                     <th scope="col" className="px-6 py-4">
                       #
                     </th>
-                    <th scope="col" className="px-6 py-4 hidden">
-                      idTrabajador
-                    </th>
                     <th scope="col" className="px-6 py-4">
                       Nombre Completo
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Número de Empleado
+                     salario correspondiente
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Rol
+                      Salario Base
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Bono por Hora
+                      Bono
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Sueldo por Hora
+                      Entregas
                     </th>
                     <th scope="col" className="px-6 py-4">
-                      Vales de Despensa
+                      Sueldo Bruto
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Sueldo Neto
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Vales Despensa
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Salario neto mas vales
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {datosTrabajadores.map((trabajador, index) => (
+                  {datosSueldos.map((trabajador, index) => (
                     <tr key={index} className={index % 2 === 0 ? 'border-b dark:border-neutral-500' : 'border-b'}>
                       <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                      <td className="whitespace-nowrap px-6 py-4 hidden">{trabajador.idTrabajador}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.nombreCompleto}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.numeroEmpleado}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.rol}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.bonoPorHora}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.sueldoPorHora}</td>
-                      <td className="whitespace-nowrap px-6 py-4">{trabajador.valesDespensa}</td>
+                      <td className="whitespace-nowrap px-6 py-4 ">{trabajador.nombreCompleto}</td>
+                      <td className="whitespace-nowrap px-6 py-4 ">{trabajador.mesSalario} {trabajador.año}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.totalSalarioBase}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.totalBono}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.totalEntregas}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.sueldoBruto}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.sueldoNeto}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.totalValesDespensa}</td>
+                      <td className="whitespace-nowrap px-6 py-4">${trabajador.SalarioFinaldecimal}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -112,22 +131,6 @@ export default function MostrarTodosLosSueldos() {
           </div>
         </div>
       </div>
-
-      <nav className="w-90 mx-auto py-4">
-        <ul className="flex justify-center space-x-2">
-          {[1, 2, 3, 4, 5].map((pageNumber) => (
-            <li key={pageNumber}>
-              <a
-                href={`#${pageNumber}`}
-                className="px-4 py-2 text-blue-500 border border-blue-500 rounded hover:bg-blue-500 hover:text-white"
-                onClick={() => handlePageClick(pageNumber)}
-              >
-                {pageNumber}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
     </>
   );
 }
