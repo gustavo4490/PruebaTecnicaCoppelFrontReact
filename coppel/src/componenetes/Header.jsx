@@ -34,6 +34,9 @@ export default function Header() {
                     <Link to={'/entregas'} className="text-sm font-semibold leading-6 text-gray-900">
                         Registrar entregas
                     </Link>
+                    <Link to={'/registar-sueldo'} className="text-sm font-semibold leading-6 text-gray-900">
+                    Registrar sueldo
+                    </Link>
                 </Popover.Group>
 
             </nav>
@@ -79,6 +82,16 @@ export default function Header() {
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                      Registrar entregas
+                                </Link>
+                                <Link
+                                    onClick={() => {
+                                        setMobileMenuOpen(false);
+
+                                    }}
+                                    to={'/registar-sueldo'}
+                                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                >
+                                     Registrar sueldo
                                 </Link>
                             </div>
 
