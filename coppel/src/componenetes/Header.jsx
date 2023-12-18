@@ -28,8 +28,8 @@ export default function Header() {
 
                     <Link to={"/index"} className="text-sm font-semibold leading-6 text-gray-900">Crear Trabajador</Link>
 
-                    <Link to={'/index'} className="text-sm font-semibold leading-6 text-gray-900">
-                        Crear Trabajador
+                    <Link to={'/empleados'} className="text-sm font-semibold leading-6 text-gray-900">
+                        Ver todos los empleados
                     </Link>
                     <Link to={'index'} className="text-sm font-semibold leading-6 text-gray-900">
                         Crear Trabajador
@@ -58,17 +58,17 @@ export default function Header() {
 
                                 <Link
                                     onClick={() => setMobileMenuOpen(false)}
-                                    to="/principal"
+                                    to="/index"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Crear Trabajador
                                 </Link>
                                 <Link
                                     onClick={() => setMobileMenuOpen(false)}
-                                    to={'/principal'}
+                                    to={'/empleados'}
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
-                                    Crear Trabajador
+                                    Ver todos los empleados
                                 </Link>
                                 <Link
                                     onClick={() => {
