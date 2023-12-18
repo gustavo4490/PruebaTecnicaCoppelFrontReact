@@ -1,9 +1,10 @@
 import axios from "axios";
+import { baseURL } from "./urlApi"
 
 
 export const controlApi = axios.create({
-    baseURL: 'http://localhost:8080/api_sueldos_coppel'
-      })
+  baseURL: `${baseURL}`
+})
 
 export const createTrabajador = (trabajador) => controlApi.post('/trabajadores', trabajador);
 
